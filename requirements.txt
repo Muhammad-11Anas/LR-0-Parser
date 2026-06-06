@@ -1,0 +1,5 @@
+# LR(0) Parser Visualiser — runtime dependencies.
+# tkinter ships with Python on Windows / macOS / most Linux distros.
+
+matplotlib>=3.7
+networkx>=3.0

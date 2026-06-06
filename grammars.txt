@@ -1,0 +1,48 @@
+# =====================================================================
+# Example grammars for the LR(0) parser visualiser.
+# Copy any block (without the "# ---" markers) into the Grammar tab,
+# or just use the dropdown in the GUI which has these built in.
+# =====================================================================
+
+
+# --- 1. Dragon Book classic ------------------------------------------
+# Aho/Lam/Sethi/Ullman, "Compilers" §4.6.
+# Produces exactly 7 states. No conflicts.
+# Try inputs:  d d   c d d   c c d d   c d c d
+S -> C C
+C -> c C | d
+
+
+# --- 2. Classic expression grammar -----------------------------------
+# Aho/Lam/Sethi/Ullman, "Compilers" §4.6.4 (Fig. 4.31).
+# Produces exactly 12 states. No conflicts.
+# Try inputs:  id    id + id    id * id    id + id * id
+#              ( id )    ( id + id ) * id    ( ( id ) )
+E -> E + T | T
+T -> T * F | F
+F -> ( E ) | id
+
+
+# --- 3. Comma-separated list -----------------------------------------
+# Try inputs:  a   b   a , b , a   a , a , a , b
+L -> L , E | E
+E -> a | b
+
+
+# --- 4. Balanced parentheses -----------------------------------------
+# Try inputs:  a   ( a )   ( ( a ) )   ( ( ( a ) ) )
+S -> ( S ) | a
+
+
+# --- 5. Conflict demo: dangling-else (NOT SLR) -----------------------
+# The classic ambiguous "if-then-else" grammar. Has a real shift/reduce
+# conflict on the 'e' (else) token that no amount of lookahead-1 can fix.
+# The GUI will highlight conflict cells in red in the parsing table.
+S -> i S e S | i S | a
+
+
+# --- 6. Epsilon-production example -----------------------------------
+# Demonstrates handling of nullable non-terminals.
+# Try inputs:  b   a b   a a b   a a a b
+S -> A b
+A -> a A | ε
